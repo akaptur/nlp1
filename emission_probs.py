@@ -56,11 +56,11 @@ class EmissionProbEmitter(object):
             for line in src:
 
                 parts = line.split(' ')
+
                 #Count for a single word-tag combo
                 if parts[1] == 'WORDTAG':
-                    count = parts[0]
-                    tagtype = parts[2]
-                    name = parts[3].strip() #Get rid of trailing '\n'
+                    count, _, tagtype, name = parts
+                    name = name.strip() #Get rid of trailing '\n'
                     #Check to see if word has already been recorded
                     if name in self.word_counts:
                         (self.word_counts[name])[tagtype] = count
