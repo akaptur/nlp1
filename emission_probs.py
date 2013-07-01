@@ -4,8 +4,11 @@ the emission probability of a word given a tag."""
 
 class EmissionProbEmitter(object):
 
-    def __init__(self):
-        self.srcname = ""
+    def __init__(self, source_file=None):
+        if source_file is None:
+            self.srcname = self.get_sourcename()
+        else:
+            self.srcname = source_file
         self.counted = False
         self.prob_computed = False
         self.word_emm_probs = {}
@@ -22,12 +25,15 @@ class EmissionProbEmitter(object):
             be of the same form as gene.counts). Checks for valid file and 
             if invalid prompts again"""
 
-        print "Please supply a valid filename for the source file."
-        self.srcname = raw_input('> ')
-        try:
-            file(self.srcname)
-        except:
-            self.get_sourcename()
+        valid_file = False
+        while not valid_file:
+            print "Please supply a valid filename for the source file."
+            file_name = raw_input('> ')
+            try:
+                valid_file = file(file_name)
+            except IOError:
+                pass
+        return file_name
 
     def get_counts_from_file(self):
      
@@ -44,11 +50,8 @@ class EmissionProbEmitter(object):
             #Mark self as counted
             self.counted = True
             #Attempd to oepn file
-            try:
-                src = open(self.srcname)
-            except: #Get sourcename if necessary
-                self.get_sourcename()
-                src = open(self.srcname)
+            src = open(self.srcname)
+
             #Step through file and identify record type
             for line in src:
 
