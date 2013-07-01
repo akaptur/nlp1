@@ -134,6 +134,7 @@ class EmissionProbEmitter(object):
         keys = tagdict.keys()
         maxprob = max(vals)
 
+        # use max(iterable, key=sorting_fn)
         for key in keys:
             if tagdict[key] == maxprob:
                 return key
