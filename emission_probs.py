@@ -142,20 +142,20 @@ class EmissionProbEmitter(object):
        
     def basic_tagger(self, devfile, destfile):
         #best_tag
-        dev = open(devfile)
-        dest = open(destfile, 'w')
+        with open(devfile) as dev:
+            with open(destfile, 'w') as dest:
 
-        for line in dev:
-            word = line.strip()
-            if word in self.word_emm_probs:
-                dest.write(word + ' ' + self.best_tag(word) + '\n')
-            elif word == '':
-                dest.write('\n')
-            else:
-                dest.write(word + ' ' + self.best_tag('_RARE_') + '\n')
+                dev = open(devfile)
+                dest = open(destfile, 'w')
 
-        dev.close()
-        dest.close()
+                for line in dev:
+                    word = line.strip()
+                    if word in self.word_emm_probs:
+                        dest.write(word + ' ' + self.best_tag(word) + '\n')
+                    elif word == '':
+                        dest.write('\n')
+                    else:
+                        dest.write(word + ' ' + self.best_tag('_RARE_') + '\n')
 
     def q(self, tag1, tag2, tag3):
 
